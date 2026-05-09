@@ -77,19 +77,6 @@ class Loader(dict):
         loss_mapping = {
             'celoss': lambda : nn.CrossEntropyLoss(weight=self.cfg.train.loss_function_weight),
             'Tversky_loss_lovasz': lambda : TL_loss(alpha=0.5, beta=0.5, n_class = self.cfg.dataset.Class),
-            'f-h-loss': lambda : focal_hausdorffErloss(),
-            'lovasz_ce_loss': lambda : Lovasz_ce_loss(weight=self.cfg.train.loss_function_weight, n_class=self.cfg.dataset.Class),
-            'lovasz_softmax': lambda : LovaszSoftmaxLoss,
-            'DynamicWeightedCrossEntropyLoss': lambda : DynamicWeightedCrossEntropyLoss(),
-            'focalloss': lambda: FocalLoss(),
-            'dynamic_focal_loss': lambda:  DynamicFocalLoss(),
-            'dice': lambda: DiceLoss(mode='multiclass'),
-            'ASL': lambda: AutoBalanceWeightedLoss(classes=2),
-            'hybridloss': lambda : hybridloss,
-            'ASL_A':lambda : AdaptiveSegmentationLoss(num_classes=self.cfg.dataset.Class),
-            'mix_loss':lambda : mix_loss(),
-            'Tversky_loss':lambda :Tversky_loss(alpha = 0.5, beta = 0.5, clsasses = 2),
-            'LovaszHingeLoss': lambda : LovaszHingeLoss
         }
         # 检查损失函数名称是否存在于映射中
         if self.cfg.train.loss_function not in loss_mapping:
