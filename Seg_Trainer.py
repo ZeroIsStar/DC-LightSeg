@@ -235,8 +235,8 @@ class Trainer:
 
 
 if __name__ == '__main__':
-    model_list = ['SCDUNetPP','pyramidMamba','RIPF_Unet','MFFEnet','TransUnet2','MiM_iSTD','RFA_ResUnet','bisednet','CSSLnet','MS2LandsNet']
-    dataset_list = ['Luding']
+    model_list = ['Unet']
+    dataset_list = ['Bijie']
     for model in model_list:
         for dataset in dataset_list:
             Train_loader, Val_loader, _ = DataLoader(dataset_name=dataset).get_dataloader()
