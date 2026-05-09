@@ -7,8 +7,7 @@ cfg = dict(
 
     dataset = dict(
         set          = ['train', 'val', 'test'],
-        dataset_name = '',
-        # ['palu','Mengdong','Hokkaido_Iburi_Tobu','Jiuzhai_valley"_(0.2m)','Longxi_River'(SAT),'Moxi_town"_(0.2m)‘] Seg
+        dataset_name = 'Bijie/Nepal',
         batch_size   = 4,
         in_channels= 3,
         Class=2,
