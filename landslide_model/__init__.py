@@ -1,4 +1,6 @@
 from landslide_model.Unet import UNet
+from landslide_model.UnetPP import UNet_Nested
+from landslide_model.Segformer import SegFormer
 from landslide_model.MFFEnet import DeepLab  
 from landslide_model.RIPF_Unet import RiPF_UNet  
 from landslide_model.transUnet2 import TransUNet2  
