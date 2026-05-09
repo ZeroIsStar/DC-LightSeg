@@ -29,7 +29,7 @@ cfg = dict(
 
     scheduler=dict(
         #['linear', 'step', 'CosineAnnealingLR'] 内置
-        epoch        = 100,
+        epoch        = 150,
         type         = 'WarmupCosineAnnealingLR',
         warmup_epoch = 10
     )
