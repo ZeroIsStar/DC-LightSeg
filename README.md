@@ -1,2 +1,1 @@
-# DC-LightSeg
-相关对比模型
+# DC-Light
