@@ -153,7 +153,7 @@ if __name__ == '__main__':
     cb = fig.colorbar(img, ax=ax)
     cb.set_label('数量热力图')
     plt.tight_layout()
-    plt.savefig(r'G:\周报\研二上\中文paper图\文中数据图\bijie_landslide.png', dpi=450, bbox_inches='tight')
+    plt.savefig(r'bijie_landslide.png', dpi=450, bbox_inches='tight')
     plt.show()
 
 # a = Bijie_Dataset(dir= r'E:\dataset\Bijie_landslide_dataset\landslide', set='train')
