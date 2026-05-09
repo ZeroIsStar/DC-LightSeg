@@ -24,7 +24,7 @@ class C1C3BR(nn.Module):
         super().__init__()
         self.c1 = nn.Conv2d(in_channels, out_channels,kernel_size=1)
         self.c3 = nn.Conv2d(out_channels, out_channels, kernel_size=kernel_size,padding=kernel_size//2)
-        self.bn = nn.BatchNorm2d(out_channels,momentum=0.001)
+        self.bn = nn.BatchNorm2d(out_channels,momentum=0.1)
         self.act = nn.ReLU(inplace=True)
 
     def forward(self, x):
@@ -41,28 +41,6 @@ class SoftPool2D(nn.Module):
         x_exp_pool = self.avgpool(x_exp)
         x = self.avgpool(x_exp * x)
         return x / x_exp_pool
-
-
-class ResDC(nn.Module):
-    def __init__(self, in_channels, out_channels):
-        super(ResDC, self).__init__()
-        self.out_channels = out_channels
-        self.conv = nn.Conv2d(in_channels, out_channels,kernel_size=1)
-        self.act = nn.ReLU(inplace=True)
-        self.conv5x5 = nn.Sequential(
-            nn.Conv2d(out_channels, out_channels, kernel_size=5,padding=2, groups=out_channels),
-            nn.BatchNorm2d(out_channels, momentum=0.001),
-        )
-        self.DC = Deform(out_channels, out_channels, kernel_size=3)
-        self.conv_out = nn.Conv2d(out_channels, out_channels, kernel_size=1)
-
-
-    def forward(self,x):
-        x = self.conv(x)
-        x0 = self.conv5x5(x)
-        x1 = self.DC(x0)
-        out = self.act(self.conv_out(x1)+x)
-        return out
 
 
 class DRFM(nn.Module):
@@ -89,21 +67,21 @@ class DRFM(nn.Module):
         elif variant == 'A1':   # 3x3 普通卷积
             self.mid = nn.Sequential(
                 nn.Conv2d(mid_channels, mid_channels, kernel_size=3, padding=1),
-                nn.BatchNorm2d(mid_channels,momentum=0.001),
+                nn.BatchNorm2d(mid_channels,momentum=0.1),
                 nn.ReLU(inplace=True)
             )
             self.conv1x1_out = nn.Conv2d(mid_channels, out_channels, kernel_size=1)
         elif variant == 'A2':   # 5x5 普通卷积
             self.mid = nn.Sequential(
                 nn.Conv2d(mid_channels, mid_channels, kernel_size=5, padding=2),
-                nn.BatchNorm2d(mid_channels,momentum=0.001),
+                nn.BatchNorm2d(mid_channels,momentum=0.1),
                 nn.ReLU(inplace=True)
             )
             self.conv1x1_out = nn.Conv2d(mid_channels, out_channels, kernel_size=1)
         elif variant == 'A3':   # 7x7 普通卷积
             self.mid = nn.Sequential(
                 nn.Conv2d(mid_channels, mid_channels, kernel_size=7, padding=3),
-                nn.BatchNorm2d(mid_channels,momentum=0.001),
+                nn.BatchNorm2d(mid_channels,momentum=0.1),
                 nn.ReLU(inplace=True)
             )
             self.conv1x1_out = nn.Conv2d(mid_channels, out_channels, kernel_size=1)
@@ -113,7 +91,7 @@ class DRFM(nn.Module):
         elif variant == 'A5':   # 3x3 普通 + Deform
             self.mid = nn.Sequential(
                 nn.Conv2d(mid_channels, mid_channels, kernel_size=3, padding=1),
-                nn.BatchNorm2d(mid_channels,momentum=0.001),
+                nn.BatchNorm2d(mid_channels,momentum=0.1),
                 nn.ReLU(inplace=True),
                 Deform(mid_channels, mid_channels, kernel_size=3)
             )
@@ -121,7 +99,7 @@ class DRFM(nn.Module):
         elif variant == 'A6':   # 5x5 DW + Deform
             self.mid = nn.Sequential(
                 nn.Conv2d(mid_channels, mid_channels, kernel_size=5, padding=2, groups=mid_channels),
-                nn.BatchNorm2d(mid_channels,momentum=0.001),
+                nn.BatchNorm2d(mid_channels,momentum=0.1),
                 nn.SiLU(inplace=True),
                 Deform(mid_channels, mid_channels, kernel_size=3)
             )
@@ -129,7 +107,7 @@ class DRFM(nn.Module):
         elif variant == 'A7':   # A6 但去掉残差
             self.mid = nn.Sequential(
                 nn.Conv2d(mid_channels, mid_channels, kernel_size=5, padding=2, groups=mid_channels),
-                nn.BatchNorm2d(mid_channels,momentum=0.001),
+                nn.BatchNorm2d(mid_channels,momentum=0.1),
                 nn.SiLU(inplace=True),
                 Deform(mid_channels, mid_channels, kernel_size=3)
             )
@@ -137,10 +115,10 @@ class DRFM(nn.Module):
         elif variant == 'A8':   # A6 但将 Deform 替换为空洞卷积 3x3 dilation=2
             self.mid = nn.Sequential(
                 nn.Conv2d(mid_channels, mid_channels, kernel_size=5, padding=2, groups=mid_channels),
-                nn.BatchNorm2d(mid_channels,momentum=0.001),
+                nn.BatchNorm2d(mid_channels,momentum=0.1),
                 nn.ReLU(inplace=True),
                 nn.Conv2d(mid_channels, mid_channels, kernel_size=3, padding=2, dilation=2),
-                nn.BatchNorm2d(mid_channels,momentum=0.001),
+                nn.BatchNorm2d(mid_channels,momentum=0.1),
                 nn.ReLU(inplace=True)
             )
             self.conv1x1_out = nn.Conv2d(mid_channels, out_channels, kernel_size=1)
@@ -286,7 +264,7 @@ class BiFPN_cat(nn.Module):
 
 
 class DC_light(nn.Module):
-    def __init__(self, in_channels=3, n_classes=2,variant='A7',decoder ='bifpn_cat', domn=None):
+    def __init__(self, in_channels=3, n_classes=2,variant='A6',decoder ='bifpn_cat', domn=None):
         super(DC_light, self).__init__()
         self.in_channels = in_channels
         if domn is None:
@@ -297,12 +275,6 @@ class DC_light(nn.Module):
             self.down = nn.AvgPool2d(2, 2)
 
         self.filters = [64, 128, 256, 512]
-        #####################原版
-        # self.conv00 = ResDC(in_channels=in_channels, out_channels=self.filters[0])
-        # self.conv01 = ResDC(in_channels=self.filters[0], out_channels=self.filters[1])
-        # self.conv02 = ResDC(in_channels=self.filters[1], out_channels=self.filters[2])
-        # self.conv03 = ResDC(in_channels=self.filters[2], out_channels=self.filters[3])
-        #####################消融
         self.conv00 = DRFM(in_channels=in_channels, out_channels=self.filters[0], variant=variant)
         self.conv01 = DRFM(in_channels=self.filters[0], out_channels=self.filters[1], variant=variant)
         self.conv02 = DRFM(in_channels=self.filters[1], out_channels=self.filters[2], variant=variant)
@@ -321,7 +293,7 @@ class DC_light(nn.Module):
             self.decoder = BiFPN_cat(self.filters[0],domn=domn)
         self.Classifier = nn.Sequential(
             nn.Conv2d(self.filters[0]*4, self.filters[0], kernel_size=3, padding=1),
-            nn.BatchNorm2d(self.filters[0],momentum=0.001),
+            nn.BatchNorm2d(self.filters[0],momentum=0.1),
             nn.ReLU(),
             nn.Conv2d(self.filters[0], n_classes, kernel_size=1),
         )
@@ -336,9 +308,9 @@ class DC_light(nn.Module):
         p2 = self.c2(conv01)
         p1 = self.c1(conv00)
         out4, out3, out2, out1 = self.decoder(p4, p3, p2, p1)
-        out4 = F.interpolate(out4, scale_factor=8, mode='bilinear', align_corners=True)
-        out3 = F.interpolate(out3, scale_factor=4, mode='bilinear', align_corners=True)
-        out2 = F.interpolate(out2, scale_factor=2, mode='bilinear', align_corners=True)
+        out4 = F.interpolate(out4, scale_factor=8, mode='bilinear')
+        out3 = F.interpolate(out3, scale_factor=4, mode='bilinear')
+        out2 = F.interpolate(out2, scale_factor=2, mode='bilinear')
         totoal = torch.cat([out4, out3, out2, out1], dim=1)
         out = self.Classifier(totoal)
         return out
