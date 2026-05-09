@@ -139,7 +139,7 @@ if __name__ == '__main__':
     cb.set_label('数量热力图')
 
     plt.tight_layout()
-    plt.savefig(r'G:\周报\研二上\中文paper图\文中数据图\Nepal_landslide.png', dpi=450, bbox_inches='tight')
+    plt.savefig(r'Nepal_landslide.png', dpi=450, bbox_inches='tight')
     plt.show()
 
 # a = Nepal_Dataset(dir= r'E:\dataset\Nepal_landslide_dataset', set='train')
