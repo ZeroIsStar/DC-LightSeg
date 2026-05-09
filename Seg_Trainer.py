@@ -235,19 +235,19 @@ class Trainer:
 
 
 if __name__ == '__main__':
-    model_list = ['Unet']
-    dataset_list = ['Bijie']
-    for model in model_list:
-        for dataset in dataset_list:
-            Train_loader, Val_loader, _ = DataLoader(dataset_name=dataset).get_dataloader()
-            trainer = Trainer(train_loader=Train_loader, val_loader=Val_loader, model_type=model, dataset_name=dataset)
-            trainer.set_random_seed()
-            trainer.train()
+    # 批量跑的模型和数据集代码，直接以数组格式给定要训练的模型和数据集
+    # model_list = ['Unet']
+    # dataset_list = ['Bijie']
+    # for model in model_list:
+    #     for dataset in dataset_list:
+    #         Train_loader, Val_loader, _ = DataLoader(dataset_name=dataset).get_dataloader()
+    #         trainer = Trainer(train_loader=Train_loader, val_loader=Val_loader, model_type=model, dataset_name=dataset)
+    #         trainer.set_random_seed()
+    #         trainer.train()
 
     # .................................region 示例代码单个模型数据集........................................................
+    # 修改cofigs内模型名称和数据集就行
     # Train_loader, Val_loader, _ = DataLoader(dataset_name=cfg.dataset.dataset_name).get_dataloader()
     # trainer = Trainer(train_loader=Train_loader, val_loader=Val_loader, model_type=cfg.segment_model.type, dataset_name = cfg.dset.dataset_name)
     # trainer.set_random_seed()
-    # M_Mean, re_mean, pr_mean, F1_mean, M_std, re_std, pr_std, F1_std, data = trainer.train()
-
-    # print(M_Mean, re_mean, pr_mean, F1_
+    # trainer.train()
