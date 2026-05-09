@@ -25,8 +25,7 @@ cfg = dict(
         momentum     = 0.99
     ),
     train = dict(
-        loss_function='Tversky_loss_lovasz',  # ['celoss','Tversky_loss_lovasz','f-h-loss', 'lovasz_ce_loss','lovasz_softmax','DynamicWeightedCrossEntropyLoss', 'dynamic_focal_loss']
-        loss_function_weight = torch.tensor([1.0, 1.0]),
+        loss_function='Tversky_loss_lovasz',  # ['celoss','Tversky_loss_lovasz']
     ),
 
     scheduler=dict(
