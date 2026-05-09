@@ -14,31 +14,6 @@ import matplotlib.pyplot as plt
 image_path = r'E:\\dataset\\new_data\\img'
 label_path = r"E:\\dataset\\new_data\\mask"
 text_path = r'E:\\dataset\\new_data'
-# file_path = "E:\\dataset\\Luding__Landslide_Dataset(seg)\\img\\img.h5"
-# label_path = "E:\\dataset\\Luding__Landslide_Dataset(seg)\\label\\label.h5"
-# dataset_name = []
-# label_name = []
-# with h5py.File(file_path, 'r') as f:
-#     # 读取数据集
-#     for i in range(len(list(f.keys()))):
-#         dataset_name.append(list(f.keys())[i])
-# with h5py.File(label_path, 'r') as f:
-#         # 读取数据集
-#     for i in range(len(list(f.keys()))):
-#          label_name.append(list(f.keys())[i])
-#
-# class_distribution = []
-# for label_file in label_name:
-#     label_name = label_file
-#     with h5py.File(label_path, 'r') as hf:
-#         label = hf[label_name][:]
-#     unique, counts = np.unique(label, return_counts=True)
-#     class_dist = dict(zip(unique, counts / label.size))
-#     class_distribution.append(class_dist)
-#
-# class_df = pd.DataFrame(class_distribution)
-# class_df['image_name'] = dataset_name
-
 
 # 获取所有图像和标签文件名
 image_files = os.listdir(image_path)
