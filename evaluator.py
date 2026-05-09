@@ -144,12 +144,9 @@ class evaluator:
 
 if __name__ == '__main__':
     # model_list = ['Unet']
-    # dataset_list = ['palu', 'WenChuan']
-
-    Data_loader = DataLoader(dataset_name='Wenchuan')
-    # _, _, Test_loader = Data_loader.get_dataloader()
+    Data_loader = DataLoader(dataset_name='Bijie')
     _,Val_loader,T = Data_loader.get_dataloader()
-    evaluator = evaluator(test_loader= T, model_type='DC_light_bifpn_cat', dataset_name='Wenchuan',
+    evaluator = evaluator(test_loader= T, model_type='DC_light_bifpn_cat', dataset_name='Bijie',
                           model_weight_dir=r'autodl-tmp/Bijie/DC_light_bifpn_cat/Tversky_loss_lovasz_a0.5_b0.5/2026_05_09/00_15_13/BEST_epoch114_iou0.7852_Acc0.9748_recall0.8604_pre0.8998_F1_0.8797.pth')
     evaluator.test()
     evaluator.vis_seg_test_result()
