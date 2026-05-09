@@ -1,3 +1,4 @@
+from landslide_model.Unet import UNet
 from landslide_model.MFFEnet import DeepLab  # 2022
 from landslide_model.RIPF_Unet import RiPF_UNet  # 2023
 from landslide_model.transUnet2 import TransUNet2  # 2025
