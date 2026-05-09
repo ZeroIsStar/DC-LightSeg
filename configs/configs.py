@@ -2,7 +2,7 @@ import torch
 
 cfg = dict(
     segment_model = dict(
-        type ='MFFEnet',  # ['MFFEnet','RIPF_Unet','Attention_deeplabV3plus','RFA_ResUnet','DC_light_bifpn_cat']
+        type ='MFFEnet',  # ['Unet','Unet++','MFFEnet','RIPF_Unet','Attention_deeplabV3plus','RFA_ResUnet','DC_light_bifpn_cat']
     ),
 
     dataset = dict(
